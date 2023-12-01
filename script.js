@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Esta função será executada quando o DOM (Document Object Model) estiver completamente carregado.
 
-  const board = document.getElementById('board');
+  const tabuleiro = document.getElementById('tabuleiro');
   const status = document.getElementById('status');
   const Reiniciar = document.getElementById('Reiniciar');
 
-  // Aqui, são obtidos elementos do DOM usando seus IDs. O 'board' representa o tabuleiro, 'status' exibe o status do jogo
+  // Aqui, são obtidos elementos do DOM usando seus IDs. O 'tabuleiro representa o tabuleiro, 'status' exibe o status do jogo
   // e 'Reiniciar' é o botão de reinício.
 
   let currentPlayer = 'X';
-  let gameBoard = ['', '', '', '', '', '', '', '', ''];
+  let gametabuleiro = ['', '', '', '', '', '', '', '', ''];
   let gameActive = true;
 
-  // Variáveis que mantêm o estado do jogo. 'currentPlayer' guarda o jogador atual ('X' ou 'O'), 'gameBoard' representa
+  // Variáveis que mantêm o estado do jogo. 'currentPlayer' guarda o jogador atual ('X' ou 'O'), 'tabuleiro' representa
   // o estado atual do tabuleiro e 'gameActive' indica se o jogo está ativo.
 
   function checkWinner() {
@@ -25,56 +25,56 @@ document.addEventListener('DOMContentLoaded', function () {
 
     for (const pattern of winPatterns) {
       const [a, b, c] = pattern;
-      if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+      if (gametabuleiro[a] && gametabuleiro[a] === gametabuleiro[b] && gametabuleiro[a] === gametabuleiro[c]) {
         return pattern; // Retorna as células da linha vencedora
       }
     }
 
-    if (!gameBoard.includes('')) {
+    if (!gametabuleiro.includes('')) {
       return 'draw'; // Retorna 'draw' se não houver vencedor e o tabuleiro estiver cheio.
     }
 
     return null; // Retorna null se o jogo ainda estiver em andamento.
   }
 
-  function highlightWinningCels(cels) {
+  function highlightWinningbotõess(botõess) {
     // Adiciona uma classe para destacar as células vencedoras.
-    cels.forEach((celIndex) => {
-      const celElement = document.getElementById(`cel${celIndex}`);
-      celElement.classList.add('winning-cel');
+    botõess.forEach((botõesIndex) => {
+      const botõesElement = document.getElementById(`botões${botõesIndex}`);
+      botõesElement.classList.add('winning-botões');
     });
   }
 
   function removeHighlight() {
     // Remove a classe de destaque das células do tabuleiro.
-    const cels = document.querySelectorAll('.cel');
-    cels.forEach((cel) => {
-      cel.classList.remove('winning-cel');
+    const botõess = document.querySelectorAll('.botões');
+    botões.forEach((botões) => {
+      botões.classList.remove('winning-botões');
     });
   }
 
   function handleClick(index) {
     // Manipula o clique nas células do tabuleiro.
-    if (!gameActive || gameBoard[index] !== '') return;
+    if (!gameActive || gametabuleiro[index] !== '') return;
 
-    gameBoard[index] = currentPlayer;
-    updateBoard();
+    gametabuleiro[index] = currentPlayer;
+    updatetabuleiro();
 
-    const winnerCels = checkWinner();
-    if (winnerCels) {
-      highlightWinningCels(winnerCels);
-      endGame(gameBoard[winnerCels[0]]);
+    const winnerbotõess = checkWinner();
+    if (winnerbotõess) {
+      highlightWinningbotõess(winnerbotõess);
+      endGame(gametabuleiro[winnerbotõess[0]]);
     } else {
       currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
       status.textContent = `Vez do Jogador ${currentPlayer}`;
     }
   }
 
-  function updateBoard() {
+  function updatetabuleiro() {
     // Atualiza o conteúdo das células do tabuleiro no DOM.
     for (let i = 0; i < 9; i++) {
-      const celElement = document.getElementById(`cel${i}`);
-      celElement.textContent = gameBoard[i];
+      const botõesElement = document.getElementById(`botões${i}`);
+      botõesElement.textContent = gametabuleiro[i];
     }
   }
 
@@ -90,26 +90,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function resetGame() {
     // Reinicia o jogo, resetando todas as variáveis.
-    gameBoard = ['', '', '', '', '', '', '', '', ''];
+    gametabuleiro = ['', '', '', '', '', '', '', '', ''];
     gameActive = true;
     currentPlayer = 'X';
     status.textContent = 'Vez do Jogador X';
     removeHighlight();
-    updateBoard();
+    updatetabuleiro();
   }
 
-  function initializeBoard() {
+  function initializetabuleiro() {
     // Inicializa o tabuleiro, adiciona eventos de clique e reinício.
     for (let i = 0; i < 9; i++) {
-      const cel = document.createElement('div');
-      cel.className = 'cel';
-      cel.id = `cel${i}`;
-      cel.addEventListener('click', () => handleClick(i));
-      board.appendChild(cel);
+      const botões = document.createElement('div');
+      botões.className = 'botões';
+      botões.id = `botões${i}`;
+      botões.addEventListener('click', () => handleClick(i));
+      tabuleiro.appendChild(botões);
     }
 
     Reiniciar.addEventListener('click', resetGame); // Adiciona um evento de clique ao botão de reinício.
   }
 
-  initializeBoard(); // Chama a função para iniciar o tabuleiro quando o DOM estiver pronto.
+  initializetabuleiro(); // Chama a função para iniciar o tabuleiro quando o DOM estiver pronto.
 });
